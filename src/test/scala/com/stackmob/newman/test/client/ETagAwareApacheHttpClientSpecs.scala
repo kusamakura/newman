@@ -63,7 +63,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
       HttpResponse(HttpResponseCode.NotModified, Headers.empty, body)
     }
 
-    protected lazy val client = new ETagAwareHttpClient(rawClient, responseCacher)
+    protected lazy val client = new ETagAwareHttpClient(rawClient, responseCacher)(SequentialExecutionContext)
 
     protected def rawClient: DummyHttpClient
     protected def responseCacher: HttpResponseCacher
@@ -81,7 +81,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
       val urlCorrect = rawClient.getRequests.get(0)._1 must beEqualTo(url)
       val headersCorrect = rawClient.getRequests.get(0)._2 must haveTheSameHeadersAs(Headers(INM, eTag))
       val foldRes = responseCacher.verifyFoldCalls { list =>
-        list must haveTheSameElementsAs(req :: Nil)
+        list must containTheSameElementsAs(req :: Nil)
       }
 
       val applyRes = responseCacher.verifyApplyCalls { list =>
@@ -123,7 +123,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
         list must beEmpty
       }
       val foldCallRes = responseCacher.verifyFoldCalls { list =>
-        list must haveTheSameElementsAs(req :: Nil)
+        list must containTheSameElementsAs(req :: Nil)
       }
 
       applyCallRes and foldCallRes
@@ -139,7 +139,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
       }
 
       val foldCallRes = responseCacher.verifyFoldCalls { list =>
-        list must haveTheSameElementsAs(req :: Nil)
+        list must containTheSameElementsAs(req :: Nil)
       }
 
       applyCallRes and foldCallRes
@@ -154,7 +154,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
       val req = client.get(url, Headers.empty)
       req.block()
       val foldRes = responseCacher.verifyFoldCalls { list =>
-        list must haveTheSameElementsAs(req :: Nil)
+        list must containTheSameElementsAs(req :: Nil)
       }
       val applyRes = responseCacher.verifyApplyCalls { list =>
         list must beEmpty
@@ -166,7 +166,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
       val req = client.get(url, Headers.empty)
       req.block()
       val foldRes = responseCacher.verifyFoldCalls { list =>
-        list must haveTheSameElementsAs(req :: Nil)
+        list must containTheSameElementsAs(req :: Nil)
       }
       val applyRes = responseCacher.verifyApplyCalls { list =>
         list must beEmpty
@@ -187,7 +187,7 @@ class ETagAwareApacheHttpClientSpecs extends Specification { def is =
       fromTryCatch(req.block())
 
       val foldRes = responseCacher.verifyFoldCalls { list =>
-        list must haveTheSameElementsAs(req :: Nil)
+        list must containTheSameElementsAs(req :: Nil)
       }
 
       val applyRes = responseCacher.verifyApplyCalls { list =>

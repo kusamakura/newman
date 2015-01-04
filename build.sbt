@@ -11,11 +11,9 @@ name := "newman"
 
 organization := "com.stackmob"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature")
-
-scalacOptions in Test ++= Seq("-Yrangepos")
 
 resolvers ++= List(
   "spray repo" at "http://repo.spray.io"
@@ -24,24 +22,22 @@ resolvers ++= List(
 libraryDependencies ++= {
   val httpCoreVersion = "4.2.5"
   val httpClientVersion = "4.2.5"
-  val scalaCheckVersion = "1.10.1"
-  val specs2Version = "2.2.3"
-  val mockitoVersion = "1.9.0"
+  val scalaCheckVersion = "1.11.3"
+  val specs2Version = "2.3.13"
   val liftJsonVersion = "2.5.1"
   val sprayVersion = "1.3.1"
   val akkaVersion = "2.3.4"
   Seq(
+    "org.scalaz" %% "scalaz-core" % "7.0.6",
     "org.apache.httpcomponents" % "httpcore" % httpCoreVersion,
     "org.apache.httpcomponents" % "httpclient" % httpClientVersion exclude("org.apache.httpcomponents", "httpcore"),
     "io.spray" % "spray-client" % sprayVersion,
     "io.spray" % "spray-caching" % sprayVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.twitter" %% "finagle-http" % "6.5.0" exclude("commons-codec", "commons-codec"),
-    "net.liftweb" %% "lift-json-scalaz7" % liftJsonVersion,
+    "net.liftweb" %% "lift-json-scalaz7" % liftJsonVersion exclude ("org.scalaz", "scalaz-core_2.10"),
     "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test",
-    "org.specs2" %% "specs2" % specs2Version % "test" exclude("org.scalaz", "scalaz-core_2.10"),
-    "org.pegdown" % "pegdown" % "1.2.1" % "test" exclude("org.parboiled", "parboiled-core"),
-    "org.mockito" % "mockito-all" % mockitoVersion % "test"
+    "org.specs2" %% "specs2" % specs2Version % "test" exclude("org.parboiled", "parboiled-core")
   )
 }
 
@@ -50,6 +46,8 @@ testOptions in Test += Tests.Argument("html", "console")
 conflictManager := ConflictManager.strict
 
 dependencyOverrides <+= (scalaVersion) { vsn => "org.scala-lang" % "scala-library" % vsn }
+
+dependencyOverrides <+= (scalaVersion) { vsn => "org.scala-lang" % "scala-compiler" % vsn }
 
 logBuffered := false
 
@@ -86,15 +84,11 @@ publishMavenStyle := true
 
 publishArtifact in Test := true
 
+homepage := Some(url("https://github.com/stackmob/newman"))
+
+licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+
 pomExtra := (
-  <url>https://github.com/stackmob/newman</url>
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
   <scm>
     <url>git@github.com:stackmob/newman.git</url>
     <connection>scm:git:git@github.com:stackmob/newman.git</connection>

@@ -16,7 +16,7 @@ import com.stackmob.newman.FinagleHttpClient.RichRawBody
  */
 package object finagle {
   lazy val genHttpResponseStatus: Gen[HttpResponseStatus] = {
-    Gen.value(HttpResponseStatus.OK)
+    Gen.const(HttpResponseStatus.OK)
   }
 
   lazy val genNonEmptyString: Gen[String] = Gen.alphaStr.suchThat { s =>
@@ -33,14 +33,14 @@ package object finagle {
   }
 
   lazy val genHeaders: Gen[Map[String, String]] = {
-    Gen.listOf1(genHeader).map { list =>
+    Gen.nonEmptyListOf(genHeader).map { list =>
       list.toMap
     }
   }
 
   lazy val genByteArray: Gen[Array[Byte]] = {
     val genByte = Arbitrary.arbitrary[Byte]
-    Gen.listOf1(genByte).map { list =>
+    Gen.nonEmptyListOf(genByte).map { list =>
       list.toArray
     }
   }

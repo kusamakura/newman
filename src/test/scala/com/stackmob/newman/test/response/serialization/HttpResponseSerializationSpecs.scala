@@ -44,7 +44,7 @@ class HttpResponseSerializationSpecs extends Specification { def is =
         succ = { deserialized: HttpResponse =>
           (deserialized.code must beEqualTo(resp.code)) and
           (deserialized.headers must haveTheSameHeadersAs(resp.headers)) and
-          (deserialized.rawBody.toList must haveTheSameElementsAs(resp.rawBody.toList))
+          (deserialized.rawBody.toList must containTheSameElementsAs(resp.rawBody.toList))
         },
         fail = { e =>
           SpecsFailure("deserialization failed with error %s".format(e.toString()))

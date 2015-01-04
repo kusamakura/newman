@@ -54,7 +54,7 @@ class URLBuilderDSLSpecs extends Specification { def is =
           case _ => Nil
         }
       }.toList
-      expected must haveTheSameElementsAs(givenQueryList)
+      expected must containTheSameElementsAs(givenQueryList)
     }
   }
 

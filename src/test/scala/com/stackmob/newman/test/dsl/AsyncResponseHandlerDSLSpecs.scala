@@ -40,6 +40,7 @@ class AsyncResponseHandlerDSLSpecs extends Specification { def is =
   end
 
   import com.stackmob.newman.concurrent.SequentialExecutionContext
+  override val concurrentExecutionContext: ExecutionContext = SequentialExecutionContext
 
   private trait Context {
     //we need to wait longer than the default to account for scheduling the map function inside AsyncResponseHandlerDSL's default method

@@ -40,7 +40,7 @@ class RichNettyHttpResponseSpecs extends Specification with ScalaCheck { def is 
       val (_, headers, _, nettyResp) = tup
       nettyResp.toNewmanHttpResponse must beSome.like {
         case resp: HttpResponse => resp.headers must beSome.like {
-          case headerList => headerList.list.toMap must haveTheSameElementsAs(headers)
+          case headerList => headerList.list.toMap must beEqualTo(headers)
         }
       }
     }

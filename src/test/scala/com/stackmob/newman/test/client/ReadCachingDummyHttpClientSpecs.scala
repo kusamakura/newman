@@ -61,7 +61,7 @@ class ReadCachingDummyHttpClientSpecs extends Specification with ScalaCheck { de
     forAll(genURL,
       genHeaders,
       genDummyHttpClient,
-      genDummyHttpResponseCache(genOnApply, Gen.value(Right(())))) { (url, headers, dummyClient, dummyCache) =>
+      genDummyHttpResponseCache(genOnApply, Gen.const(Right(())))) { (url, headers, dummyClient, dummyCache) =>
 
       val client = new ReadCachingHttpClient(dummyClient, dummyCache)
 
@@ -81,7 +81,7 @@ class ReadCachingDummyHttpClientSpecs extends Specification with ScalaCheck { de
     forAll(genURL,
       genHeaders,
       genDummyHttpClient,
-      genDummyHttpResponseCache(Gen.value(Right(())), Gen.value(Right(())))) { (url, headers, dummyClient, dummyCache) =>
+      genDummyHttpResponseCache(Gen.const(Right(())), Gen.const(Right(())))) { (url, headers, dummyClient, dummyCache) =>
 
       val client = new ReadCachingHttpClient(dummyClient, dummyCache)
 
@@ -118,7 +118,7 @@ class ReadCachingDummyHttpClientSpecs extends Specification with ScalaCheck { de
       genHeaders,
       genRawBody,
       genDummyHttpClient,
-      genDummyHttpResponseCache(Gen.value(Right(())), Gen.value(Right(())))) { (url, headers, body, dummyClient, dummyCache) =>
+      genDummyHttpResponseCache(Gen.const(Right(())), Gen.const(Right(())))) { (url, headers, body, dummyClient, dummyCache) =>
       val client = new ReadCachingHttpClient(dummyClient, dummyCache)
 
       val postRes = client.post(url, headers, body).block() must beEqualTo(dummyClient.responseToReturn.block())

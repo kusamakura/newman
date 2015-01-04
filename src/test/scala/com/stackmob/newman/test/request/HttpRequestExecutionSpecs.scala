@@ -106,11 +106,11 @@ class HttpRequestExecutionSpecs extends Specification { def is =
       val requestList = List(request1, throwingRequest)
       val res = concurrentRequests(requestList)
 
-      val oneThrows = res must haveOneElementLike {
-        case tup => tup._2.toEither() must beLeft
+      val oneThrows = res must contain {
+        tup: (HttpRequest, Future[HttpResponse]) => tup._2.toEither() must beLeft
       }
-      val oneSucceeds = res must haveOneElementLike {
-        case tup => tup._2.toEither() must beRight
+      val oneSucceeds = res must contain {
+        tup: (HttpRequest, Future[HttpResponse]) => tup._2.toEither() must beRight
       }
       oneThrows and oneSucceeds
     }

@@ -30,7 +30,7 @@ import scala.concurrent.Future
 import com.stackmob.newman.test.caching.DummyHttpResponseCacher
 
 package object scalacheck {
-  private[test] lazy val genNonEmptyString: Gen[String] = Gen.listOf1(Gen.alphaChar).map(_.mkString)
+  private[test] lazy val genNonEmptyString: Gen[String] = Gen.nonEmptyListOf(Gen.alphaChar).map(_.mkString)
 
   private[test] lazy val timeUnits = Seq[TimeUnit](TimeUnit.DAYS,
     TimeUnit.HOURS,
@@ -161,7 +161,7 @@ package object scalacheck {
   }
 
   private[test] def genNoneOption[T]: Gen[Option[T]] = {
-    Gen.value[Option[T]](Option.empty[T])
+    Gen.const[Option[T]](Option.empty[T])
   }
 
   private[test] def genDummyHttpResponseCache(genApplyBehavior: Gen[Either[Future[HttpResponse], Unit]], genFoldBehavior: Gen[Either[Future[HttpResponse], Unit]]): Gen[DummyHttpResponseCacher] = {
