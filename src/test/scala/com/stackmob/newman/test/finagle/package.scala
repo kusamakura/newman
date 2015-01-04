@@ -60,7 +60,7 @@ package object finagle {
       val resp = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status)
       headers.foreach { tup =>
         val (headerName, headerValue) = tup
-        resp.setHeader(headerName, headerValue)
+        resp.headers().set(headerName, headerValue)
       }
       resp.setContent(body)
       (status, headers, body, resp)

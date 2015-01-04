@@ -145,7 +145,7 @@ object FinagleHttpClient {
     def toNewmanHttpResponse: Option[HttpResponse] = {
       for {
         code <- HttpResponseCode.fromInt(resp.getStatus.getCode)
-        rawHeaders <- Option(resp.getHeaders)
+        rawHeaders <- Option(resp.headers)
         headers <- {
           val tupList = rawHeaders.asScala.map { entry =>
             entry.getKey -> entry.getValue

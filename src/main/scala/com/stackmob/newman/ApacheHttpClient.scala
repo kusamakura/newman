@@ -37,7 +37,7 @@ import ApacheHttpClient._
 import java.util.concurrent.atomic.AtomicInteger
 
 class ApacheHttpClient(val httpClient: org.apache.http.client.HttpClient)
-                      (implicit val requestContext: ExecutionContext = newmanRequestExecutionContext) extends HttpClient {
+                      (implicit val requestContext: ExecutionContext) extends HttpClient {
 
   def this(socketTimeout: Int = ApacheHttpClient.DefaultSocketTimeout,
            connectionTimeout: Int = ApacheHttpClient.DefaultConnectionTimeout,
