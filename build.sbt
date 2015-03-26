@@ -11,9 +11,9 @@ name := "newman"
 
 organization := "com.stackmob"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.6"
 
-crossScalaVersions := Seq("2.10.4", "2.11.4")
+crossScalaVersions := Seq("2.10.4", "2.11.6")
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature")
 
@@ -22,9 +22,9 @@ libraryDependencies ++= {
   val httpClientVersion = "4.2.5"
   val scalaCheckVersion = "1.11.3"
   val specs2Version = "2.3.13"
-  val liftJsonVersion = "2.6-RC2"
-  val sprayVersion = "1.3.2"
-  val akkaVersion = "2.3.8"
+  val liftJsonVersion = "2.6"
+  val sprayVersion = "1.3.3"
+  val akkaVersion = "2.3.9"
   Seq(
     "org.scalaz" %% "scalaz-core" % "7.0.6",
     "org.apache.httpcomponents" % "httpcore" % httpCoreVersion,
@@ -43,11 +43,11 @@ testOptions in Test += Tests.Argument("html", "console")
 
 conflictManager := ConflictManager.strict
 
-dependencyOverrides <+= (scalaVersion) { vsn => "org.scala-lang" % "scala-library" % vsn }
+dependencyOverrides <+= scalaVersion { vsn => "org.scala-lang" % "scala-library" % vsn }
 
-dependencyOverrides <+= (scalaVersion) { vsn => "org.scala-lang" % "scala-compiler" % vsn }
+dependencyOverrides <+= scalaVersion { vsn => "org.scala-lang" % "scala-compiler" % vsn }
 
-dependencyOverrides <+= (scalaVersion) { vsn => "org.scala-lang" % "scala-reflect" % vsn }
+dependencyOverrides <+= scalaVersion { vsn => "org.scala-lang" % "scala-reflect" % vsn }
 
 dependencyOverrides += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.2"
 
@@ -75,7 +75,7 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
-publishTo <<= (version) { version: String =>
+publishTo <<= version { version: String =>
   val nexus = "https://oss.sonatype.org/"
   if (version.trim.endsWith("SNAPSHOT")) {
     Some("snapshots" at nexus + "content/repositories/snapshots")
