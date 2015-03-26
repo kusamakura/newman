@@ -117,7 +117,9 @@ object ApacheHttpClient {
   private val threadNumber = new AtomicInteger(1)
   lazy val newmanThreadPool = Executors.newFixedThreadPool(NumThreads, new ThreadFactory() {
     override def newThread(r: Runnable): Thread = {
-      new Thread(r, "newman-" + threadNumber.getAndIncrement)
+      val t = new Thread(r, "newman-" + threadNumber.getAndIncrement)
+      t.setDaemon(true)
+      t
     }
   })
 
